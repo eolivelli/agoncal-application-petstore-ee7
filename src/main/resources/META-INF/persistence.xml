@@ -3,11 +3,13 @@
   <persistence-unit name="applicationPetstorePU" transaction-type="JTA">
     <jta-data-source>java:global/datasource/petstore</jta-data-source>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
 
-      <!-- not required but better for the demo -->
+      <!-- not required but nicer for this app purpose -->
       <property name="openejb.jpa.auto-scan" value="true"/>
-      <property name="openjpa.Log" value="SQL=TRACE"/>
+      <property name="openejb.jpa.init-entitymanager" value="true"/>
+      <property name="openjpa.Sequence" value="table(Table=OPENJPA_SEQUENCE_TABLE,PrimaryKeyColumn=`id`,SequenceColumn=`sequence_value`)"/>
+      <property name="openjpa.Log" value="slf4j"/>
       <property name="openjpa.ConnectionFactory2Properties" value="PrettyPrint=true, PrettyPrintLineLength=240, PrintParameters=True"/>
     </properties>
   </persistence-unit>

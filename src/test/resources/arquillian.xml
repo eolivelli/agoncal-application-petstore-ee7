@@ -8,9 +8,10 @@
             <property name="stopPort">-1</property>
             <property name="properties">
                 db = new://Resource?type=DataSource
-                db.jdbcUrl = jdbc:hsqldb:mem:app
-                db.UserName = SA
-                db.Password =
+                db.JdbcUrl = jdbc:herddb:local
+                db.UserName = sa
+                db.Password = hdb
+                db.JdbcDriver = herddb.jdbc.Driver
             </property>
         </configuration>
     </container>

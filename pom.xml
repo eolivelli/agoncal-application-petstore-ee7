@@ -33,6 +33,9 @@
     <version.fontawesome>4.7.0</version.fontawesome>
     <!-- Other -->
     <version.swagger>1.5.17</version.swagger>
+    <version.openjpa>3.1.3-SNAPSHOT</version.openjpa> <!-- snapshot to get herddb support -->
+    <version.herddb>0.20.0-SNAPSHOT</version.herddb> <!-- timestamp support -->
+    <version.tomee>8.0.4</version.tomee>
     <!--Maven Plugins & co-->
     <version.maven.war.plugin>3.1.0</version.maven.war.plugin>
     <version.maven.compiler.plugin>3.1</version.maven.compiler.plugin>
@@ -45,7 +48,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <versions.dependency.openjpa>3.1.3-SNAPSHOT</versions.dependency.openjpa> <!-- snapshot to get herddb support -->
   </properties>
 
   <dependencyManagement>
@@ -157,7 +159,7 @@
     <dependency> <!-- for enhancement, makes tests integ in IDE better -->
       <groupId>org.apache.openjpa</groupId>
       <artifactId>openjpa</artifactId>
-      <version>${versions.dependency.openjpa}</version>
+      <version>${version.openjpa}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -208,7 +210,13 @@
     <dependency>
       <groupId>org.apache.tomee</groupId>
       <artifactId>arquillian-tomee-embedded</artifactId>
-      <version>8.0.4</version>
+      <version>${version.tomee}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.herddb</groupId>
+      <artifactId>herddb-jdbc</artifactId>
+      <version>${version.herddb}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -226,7 +234,7 @@
       <plugin>
         <groupId>org.apache.openjpa</groupId>
         <artifactId>openjpa-maven-plugin</artifactId>
-        <version>${versions.dependency.openjpa}</version>
+        <version>${version.openjpa}</version>
         <executions>
           <execution>
             <id>enhancer</id>
@@ -290,18 +298,36 @@
         <groupId>org.apache.tomee.maven</groupId>
         <artifactId>tomee-embedded-maven-plugin</artifactId>
         <version>8.0.3</version>
-        <configuration>
+        <configuration> <!-- MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.openjpa.jdbc.SQL=TRACE to see SQL statements -->
           <containerProperties>
             <jdk.attach.allowAttachSelf>true</jdk.attach.allowAttachSelf>
-            <openejb.jul.forceReload>true</openejb.jul.forceReload>
+            <openejb.log.factory>slf4j</openejb.log.factory>
+            <java.util.logging.SimpleFormatter.format>[%4$s] %5$s%6$s%n</java.util.logging.SimpleFormatter.format>
+
             <javax.persistence.sql-load-script-source>init_db.sql</javax.persistence.sql-load-script-source>
+
+            <db>new://Resource?type=DataSource</db>
+            <db.JdbcDriver>herddb.jdbc.Driver</db.JdbcDriver>
+            <db.JdbcUrl>jdbc:herddb:local</db.JdbcUrl>
+            <db.UserName>sa</db.UserName>
+            <db.Password>hdb</db.Password>
           </containerProperties>
         </configuration>
         <dependencies>
           <dependency>
             <groupId>org.apache.openjpa</groupId>
             <artifactId>openjpa</artifactId>
-            <version>${versions.dependency.openjpa}</version>
+            <version>${version.openjpa}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.herddb</groupId>
+            <artifactId>herddb-jdbc</artifactId>
+            <version>${version.herddb}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -313,6 +339,7 @@
           <trimStackTrace>false</trimStackTrace>
           <systemPropertyVariables>
             <jdk.attach.allowAttachSelf>true</jdk.attach.allowAttachSelf>
+            <java.util.logging.SimpleFormatter.format>[%4$s] %5$s%6$s%n</java.util.logging.SimpleFormatter.format>
           </systemPropertyVariables>
         </configuration>
       </plugin>
