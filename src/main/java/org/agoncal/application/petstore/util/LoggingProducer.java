@@ -1,8 +1,9 @@
 package org.agoncal.application.petstore.util;
 
+import org.slf4j.LoggerFactory;
+
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
-import java.util.logging.Logger;
 
 /**
  * @author Antonio Goncalves
@@ -17,7 +18,7 @@ public class LoggingProducer {
     // ======================================
 
     @Produces
-    public Logger produceLogger(InjectionPoint injectionPoint) {
-        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
+    public org.slf4j.Logger produceLogger(InjectionPoint injectionPoint) {
+        return LoggerFactory.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 }

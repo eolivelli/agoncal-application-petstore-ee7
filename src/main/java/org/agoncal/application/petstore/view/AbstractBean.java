@@ -4,12 +4,10 @@ import org.agoncal.application.petstore.util.Loggable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
 
 /**
  * @author Antonio Goncalves
@@ -19,14 +17,6 @@ import java.util.logging.Logger;
 
 @Loggable
 public abstract class AbstractBean {
-
-    // ======================================
-    // =             Attributes             =
-    // ======================================
-
-    @Inject
-    private transient Logger logger;
-
     // ======================================
     // =          Protected Methods         =
     // ======================================

@@ -20,8 +20,7 @@ import java.util.logging.Logger;
 @CatchException
 public class ExceptionInterceptor implements Serializable {
 
-    @Inject
-    private Logger log;
+    private volatile transient Logger log;
 
     @AroundInvoke
     public Object catchException(InvocationContext ic) throws Exception {
@@ -29,8 +28,15 @@ public class ExceptionInterceptor implements Serializable {
             return ic.proceed();
         } catch (Exception e) {
             addErrorMessage(e.getMessage());
+            final String name = ic.getTarget().getClass().getName();
+            if (log == null) { // must support deserialization and contract does not
+                synchronized (this) {
+                    if (log == null) {
+                        log = Logger.getLogger(name);
+                    }
+                }
+            }
             log.severe("/!\\ " + ic.getTarget().getClass().getName() + " - " + ic.getMethod().getName() + " - " + e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package org.agoncal.application.petstore.util;
 
-import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -24,8 +23,7 @@ public class LoggingInterceptor implements Serializable
     // =             Attributes             =
     // ======================================
 
-    @Inject
-    private transient Logger logger;
+    private transient volatile Logger logger;
 
     // ======================================
     // =          Business methods          =
@@ -34,16 +32,24 @@ public class LoggingInterceptor implements Serializable
     @AroundInvoke
     private Object intercept(InvocationContext ic) throws Exception
     {
-        logger.entering(ic.getTarget().getClass().getName(), ic.getMethod().getName());
-        logger.info(">>> " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName());
+        final String name = ic.getTarget().getClass().getName();
+        if (logger == null) { // must support deserialization and contract does not
+            synchronized (this) {
+                if (logger == null) {
+                    logger = Logger.getLogger(name);
+                }
+            }
+        }
+        logger.entering(name, ic.getMethod().getName());
+        logger.info(">>> " + name + "-" + ic.getMethod().getName());
         try 
         {
             return ic.proceed();
         } 
         finally 
         {
-            logger.exiting(ic.getTarget().getClass().getName(), ic.getMethod().getName());
-            logger.info("<<< " + ic.getTarget().getClass().getName() + "-" + ic.getMethod().getName());
+            logger.exiting(name, ic.getMethod().getName());
+            logger.info("<<< " + name + "-" + ic.getMethod().getName());
         }
     }
 }

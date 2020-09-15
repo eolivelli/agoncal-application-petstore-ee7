@@ -138,17 +138,17 @@ public class Address implements Serializable
       if (!(o instanceof Address))
          return false;
       Address address = (Address) o;
-      return Objects.equals(street1, address.street1) &&
-               Objects.equals(city, address.city) &&
-               Objects.equals(state, address.state) &&
-               Objects.equals(zipcode, address.zipcode) &&
-               Objects.equals(country, address.country);
+      return Objects.equals(getStreet1(), address.getStreet1()) &&
+               Objects.equals(getCity(), address.getCity()) &&
+               Objects.equals(getState(), address.getState()) &&
+               Objects.equals(getZipcode(), address.getZipcode()) &&
+               Objects.equals(getCountry(), address.getCountry());
    }
 
    @Override
    public final int hashCode()
    {
-      return Objects.hash(street1, city, state, zipcode, country);
+      return Objects.hash(getStreet1(), getCity(), getState(), getZipcode(), getCountry());
    }
 
    @Override

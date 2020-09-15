@@ -174,8 +174,8 @@ public class Item implements Serializable
       if (!(o instanceof Item))
          return false;
       Item item = (Item) o;
-      return Objects.equals(name, item.name) &&
-               Objects.equals(description, item.description);
+      return Objects.equals(name, item.getName()) &&
+               Objects.equals(description, item.getDescription());
    }
 
    @Override

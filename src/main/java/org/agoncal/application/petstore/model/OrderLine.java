@@ -110,8 +110,8 @@ public class OrderLine implements Serializable
       if (!(o instanceof OrderLine))
          return false;
       OrderLine orderLine = (OrderLine) o;
-      return Objects.equals(quantity, orderLine.quantity) &&
-               Objects.equals(item, orderLine.item);
+      return Objects.equals(quantity, orderLine.getQuantity()) &&
+               Objects.equals(item, orderLine.getItem());
    }
 
    @Override

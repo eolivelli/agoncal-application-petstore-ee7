@@ -3,10 +3,17 @@
 * *Author* : [Antonio Goncalves](http://www.antoniogoncalves.org)
 * *Level* : Intermediate
 * *Technologies* : Java EE 7 (JPA 2.1, CDI 1.1, Bean Validation 1.1, EJB Lite 3.2, JSF 2.2, JAX-RS 2.0), Java SE 7 (because that's the minimum required by Java EE 7), Twitter Bootstrap (Bootstrap 3.x, JQuery 2.x, PrimeFaces 6.x)
-* *Application Servers* : WildFly 10, WildFly 11
+* *Application Servers* : TomEE
 * *Summary* : A Petstore-like application using Java EE 7
 
 [Download the code from GitHub](https://github.com/agoncal/agoncal-application-petstore-ee7)
+
+## Getting Started
+
+    mvn package [-DskipTests]
+    mvn tomee-embedded:run
+
+then go on http://localhost:8080/applicationPetstore/
 
 ## Purpose of this application
 
@@ -27,13 +34,9 @@ Being Maven centric, you can compile and package it without tests using `mvn cle
 
 ### Test with Arquillian
 
-Launching tests under [WildFly](http://www.wildfly.org/) is straight forward. You only have to launch WidlFly and execute the tests using the Maven profile :
+Launching tests under [TomEE](http://tomee.apache.org/) is straight forward. Nothing to do, TomEE Embedded will be used out of the box:
 
-    mvn clean test -Parquillian-wildfly-remote
-
-Or if you prefer the managed mode :
-
-    mvn clean test -Parquillian-wildfly-managed
+    mvn clean test
 
 ## Execute the sample
 
@@ -58,7 +61,7 @@ Check the Swagger contract on : [http://localhost:8080/applicationPetstore/swagg
 The `persistence.xml` defines a persistence unit called `applicationPetstorePU` that uses the default JBoss database :
 
 ```
-<jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+<jta-data-source>java:global/datasources/petstore</jta-data-source>
 ```
 
 ### H2

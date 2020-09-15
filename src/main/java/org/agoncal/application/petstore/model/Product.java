@@ -138,8 +138,8 @@ public class Product implements Serializable
       if (!(o instanceof Product))
          return false;
       Product product = (Product) o;
-      return Objects.equals(name, product.name) &&
-               Objects.equals(description, product.description);
+      return Objects.equals(name, product.getName()) &&
+               Objects.equals(description, product.getDescription());
    }
 
    @Override

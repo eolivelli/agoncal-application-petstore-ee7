@@ -154,7 +154,7 @@ public class Country implements Serializable
       if (!(o instanceof Country))
          return false;
       Country country = (Country) o;
-      return Objects.equals(isoCode, country.isoCode);
+      return Objects.equals(isoCode, country.getIsoCode());
    }
 
    @Override

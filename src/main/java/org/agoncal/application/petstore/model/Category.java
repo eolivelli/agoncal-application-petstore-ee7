@@ -124,7 +124,7 @@ public class Category implements Serializable
       if (!(o instanceof Category))
          return false;
       Category category = (Category) o;
-      return Objects.equals(name, category.name);
+      return Objects.equals(name, category.getName());
    }
 
    @Override

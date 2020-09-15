@@ -260,8 +260,8 @@ public class PurchaseOrder implements Serializable
        if (!(o instanceof PurchaseOrder))
            return false;
       PurchaseOrder that = (PurchaseOrder) o;
-      return Objects.equals(orderDate, that.orderDate) &&
-               Objects.equals(customer, that.customer);
+      return Objects.equals(orderDate, that.getOrderDate()) &&
+               Objects.equals(customer, that.getCustomer());
    }
 
    @Override

@@ -327,7 +327,7 @@ public class Customer implements Serializable
       if (!(o instanceof Customer))
          return false;
       Customer customer = (Customer) o;
-      return Objects.equals(login, customer.login);
+      return Objects.equals(login, customer.getLogin());
    }
 
    @Override

@@ -97,9 +97,9 @@ public class CreditCard implements Serializable
       if (!(o instanceof CreditCard))
          return false;
       CreditCard that = (CreditCard) o;
-      return Objects.equals(creditCardNumber, that.creditCardNumber) &&
-               Objects.equals(creditCardType, that.creditCardType) &&
-               Objects.equals(creditCardExpDate, that.creditCardExpDate);
+      return Objects.equals(creditCardNumber, that.getCreditCardNumber()) &&
+               Objects.equals(creditCardType, that.getCreditCardType()) &&
+               Objects.equals(creditCardExpDate, that.getCreditCardExpDate());
    }
 
    @Override

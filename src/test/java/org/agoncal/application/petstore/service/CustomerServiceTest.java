@@ -68,7 +68,7 @@ public class CustomerServiceTest
       // Creates an object
       Country country = new Country("DV", "Dummy value", "Dummy value", "DMV", "DMV");
       Address address = new Address("Dummy value", "Dummy value", "DV", country);
-      Customer customer = new Customer("Dummy value", "Dummy value", "Dummy", "Dummy value", "Dummy value", address);
+      Customer customer = new Customer("Dummy value", "Dummy value", "Dummy", "Dummy value", "dummy@value.com", address);
 
       // Inserts the object into the database
       customer = customerservice.persist(customer);
