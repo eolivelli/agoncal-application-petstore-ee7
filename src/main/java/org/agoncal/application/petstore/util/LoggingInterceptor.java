@@ -18,8 +18,9 @@ import java.util.logging.Logger;
 @Loggable
 @Interceptor
 @Priority(Interceptor.Priority.PLATFORM_BEFORE)
-public class LoggingInterceptor implements Serializable 
+public class LoggingInterceptor implements Serializable
 {
+    private static final boolean SKIP = Boolean.getBoolean(Loggable.class.getName() + ".skip");
 
     // ======================================
     // =             Attributes             =
@@ -34,6 +35,9 @@ public class LoggingInterceptor implements Serializable
     @AroundInvoke
     private Object intercept(InvocationContext ic) throws Exception
     {
+        if (SKIP) {
+            return ic.proceed();
+        }
         final String name = ic.getTarget().getClass().getName();
         if (logger == null) { // must support deserialization and contract does not
             synchronized (this) {
@@ -44,11 +48,11 @@ public class LoggingInterceptor implements Serializable
         }
         logger.entering(name, ic.getMethod().getName());
         logger.info(">>> " + name + "-" + ic.getMethod().getName());
-        try 
+        try
         {
             return ic.proceed();
-        } 
-        finally 
+        }
+        finally
         {
             logger.exiting(name, ic.getMethod().getName());
             logger.info("<<< " + name + "-" + ic.getMethod().getName());
