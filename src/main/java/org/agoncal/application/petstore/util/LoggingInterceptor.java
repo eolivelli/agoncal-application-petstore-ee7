@@ -1,5 +1,6 @@
 package org.agoncal.application.petstore.util;
 
+import javax.annotation.Priority;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 
 @Loggable
 @Interceptor
+@Priority(Interceptor.Priority.PLATFORM_BEFORE)
 public class LoggingInterceptor implements Serializable 
 {
 

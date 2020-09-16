@@ -168,6 +168,27 @@
       <version>1.7.30</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- "main" dependency, to get some figures, not needed in prod/test -->
+    <dependency>
+      <groupId>org.apache.tomee</groupId>
+      <artifactId>tomee-embedded</artifactId>
+      <version>${version.tomee}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.herddb</groupId>
+      <artifactId>herddb-jdbc</artifactId>
+      <version>${version.herddb}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.200</version>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- TEST -->
     <dependency>
       <groupId>junit</groupId>
@@ -213,12 +234,7 @@
       <version>${version.tomee}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.herddb</groupId>
-      <artifactId>herddb-jdbc</artifactId>
-      <version>${version.herddb}</version>
-      <scope>test</scope>
-    </dependency>
+
   </dependencies>
 
   <build>

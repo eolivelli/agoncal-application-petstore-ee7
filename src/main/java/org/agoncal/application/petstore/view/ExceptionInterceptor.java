@@ -1,5 +1,6 @@
 package org.agoncal.application.petstore.view;
 
+import javax.annotation.Priority;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 
 @Interceptor
 @CatchException
+@Priority(Interceptor.Priority.PLATFORM_BEFORE + 1)
 public class ExceptionInterceptor implements Serializable {
 
     private volatile transient Logger log;
