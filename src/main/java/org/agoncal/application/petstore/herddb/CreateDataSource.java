@@ -1,5 +1,6 @@
 package org.agoncal.application.petstore.herddb;
 
+import com.mysql.cj.jdbc.Driver;
 import org.apache.geronimo.transaction.manager.GeronimoTransactionManager;
 import org.apache.openejb.loader.SystemInstance;
 import org.apache.openejb.resource.jdbc.DataSourceFactory;
@@ -39,23 +40,44 @@ public final class CreateDataSource {
     public static void main(final String... args) throws Exception {
         final Class<?> driver;
         final String definition;
-        if ("herddb".equalsIgnoreCase(System.getProperty("type"))) {
-            driver = herddb.jdbc.Driver.class;
-            definition = "" +
-                    "JdbcDriver=" + driver.getName() + "\n" +
-                    "JdbcUrl=jdbc:herddb:local\n" +
-                    "UserName=sa\n" +
-                    "Password=hdb\n" +
-                    "";
-        } else {
-            driver = org.h2.Driver.class;
-            definition = "" +
-                    "JdbcDriver=" + driver.getName() + "\n" +
-                    "JdbcUrl=jdbc:h2:mem:db\n" +
-                    "UserName=sa\n" +
-                    "Password=\n" +
-                    "";
+        switch (System.getProperty("type")) {
+            case "herddb":
+                driver = herddb.jdbc.Driver.class;
+                definition = "" +
+                        "JdbcDriver=" + driver.getName() + "\n" +
+                        "JdbcUrl=jdbc:herddb:local\n" +
+                        "UserName=sa\n" +
+                        "Password=hdb\n" +
+                        "";
+                break;
+            case "herddb-remote":
+                driver = herddb.jdbc.Driver.class;
+                definition = "" +
+                        "JdbcDriver=" + driver.getName() + "\n" +
+                        "JdbcUrl=jdbc:herddb:server:localhost:7000?\n" +
+                        "UserName=sa\n" +
+                        "Password=hdb\n" +
+                        "";
+                break;
+            case "mysql":
+                driver = Driver.class;
+                definition = "" +
+                        "JdbcDriver=" + driver.getName() + "\n" +
+                        "JdbcUrl=jdbc:mysql://localhost:3306/herddb_perf_comparison?serverTimezone=GMT\n" +
+                        "UserName=root\n" +
+                        "Password=rootpwd\n" +
+                        "";
+                break;
+            default:
+                driver = org.h2.Driver.class;
+                definition = "" +
+                        "JdbcDriver=" + driver.getName() + "\n" +
+                        "JdbcUrl=jdbc:h2:mem:db\n" +
+                        "UserName=sa\n" +
+                        "Password=\n" +
+                        "";
         }
+
         final long start = System.nanoTime();
         final DataSource dataSource = DataSource.class.cast(DataSourceFactory.create("test", true, driver, definition, DURATION, DURATION, DURATION, false));
         final long end = System.nanoTime();
@@ -67,5 +89,6 @@ public final class CreateDataSource {
         if (Closeable.class.isInstance(dataSource)) {
             Closeable.class.cast(dataSource);
         }
+        new herddb.jdbc.Driver().close();
     }
 }

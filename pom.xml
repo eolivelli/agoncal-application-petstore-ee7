@@ -169,6 +169,28 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- microprofile stack -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.health</groupId>
+      <artifactId>microprofile-health-api</artifactId>
+      <version>3.0-RC3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo</groupId>
+      <artifactId>geronimo-health</artifactId>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.microprofile.metrics</groupId>
+      <artifactId>microprofile-metrics-api</artifactId>
+      <version>3.0-RC2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo</groupId>
+      <artifactId>geronimo-metrics</artifactId>
+      <version>1.0.5</version>
+    </dependency>
+
     <!-- "main" dependency, to get some figures, not needed in prod/test -->
     <dependency>
       <groupId>org.apache.tomee</groupId>
@@ -186,6 +208,12 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <version>1.4.200</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.19</version>
       <scope>provided</scope>
     </dependency>
 
@@ -327,6 +355,15 @@
             <db.JdbcUrl>jdbc:herddb:local</db.JdbcUrl>
             <db.UserName>sa</db.UserName>
             <db.Password>hdb</db.Password>
+
+            <!-- enable MP subset -->
+            <!--
+            http://localhost:8080/applicationPetstore/rest/metrics
+            http://localhost:8080/applicationPetstore/rest/health/ready
+            -->
+            <openejb.additional.exclude>geronimo-connector,geronimo-transaction</openejb.additional.exclude>
+            <openejb.additional.include>geronimo-,geronimo-metrics,geronimo-health</openejb.additional.include>
+            <openejb.classloader.forced-load>org.apache.geronimo.microprofile</openejb.classloader.forced-load>
           </containerProperties>
         </configuration>
         <dependencies>
