@@ -8,7 +8,7 @@
             <property name="stopPort">-1</property>
             <property name="properties">
                 db = new://Resource?type=DataSource
-                db.JdbcUrl = jdbc:herddb:local
+                db.JdbcUrl = jdbc:herddb:local?autoClose=true
                 db.UserName = sa
                 db.Password = hdb
                 db.JdbcDriver = herddb.jdbc.Driver

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
+import org.junit.Test;
 
 // enable to have some figures on the *startup* time (on a cold jvm since it is what we use the most today)
 //
@@ -24,18 +25,17 @@ import java.util.stream.IntStream;
 // -> Database: HerdDB 0.20.0-SNAPSHOT: findall: 218ms, hot findall: 2ms (2166 ms in total)
 //
 public final class HerdDBFigures {
-    private HerdDBFigures() {
-        // no-op
-    }
+   
 
-    public static void main(final String... args) throws NamingException, SQLException {
+    @Test
+    public void test() throws NamingException, SQLException {
         System.setProperty("jdk.attach.allowAttachSelf", "true");
         System.setProperty("org.agoncal.application.petstore.util.Loggable.skip", "true");
         System.setProperty("openejb.log.factory", "slf4j");
         System.setProperty("java.util.logging.SimpleFormatter.format", "[%4$s] %5$s%6$s%n");
         System.setProperty("javax.persistence.sql-load-script-source", "init_db.sql");
         System.setProperty("db", "new://Resource?type=DataSource");
-        if ("herddb".equalsIgnoreCase(System.getProperty("type"))) {
+        if ("herddb".equalsIgnoreCase(System.getProperty("type")) || true) {
             System.setProperty("db.JdbcDriver", "herddb.jdbc.Driver");
             System.setProperty("db.JdbcUrl", "jdbc:herddb:local");
             System.setProperty("db.UserName", "sa");

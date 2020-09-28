@@ -13,6 +13,7 @@ import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.util.concurrent.TimeUnit;
+import org.junit.Test;
 
 // enable to have some figures on the *startup* time (on a cold jvm since it is what we use the most today)
 //
@@ -32,14 +33,15 @@ public final class CreateDataSource {
             e.printStackTrace();
         }
     }
-    private CreateDataSource() {
+    public CreateDataSource() {
         // no-op
     }
 
-    public static void main(final String... args) throws Exception {
+    @Test
+    public void test()  throws Exception {
         final Class<?> driver;
         final String definition;
-        if ("herddb".equalsIgnoreCase(System.getProperty("type"))) {
+        if ("herddb".equalsIgnoreCase(System.getProperty("type")) || true) {
             driver = herddb.jdbc.Driver.class;
             definition = "" +
                     "JdbcDriver=" + driver.getName() + "\n" +
@@ -65,7 +67,7 @@ public final class CreateDataSource {
         }
         System.out.println("createDataSource: " + TimeUnit.NANOSECONDS.toMillis(end - start) + "ms");
         if (Closeable.class.isInstance(dataSource)) {
-            Closeable.class.cast(dataSource);
+            Closeable.class.cast(dataSource).close();
         }
     }
 }
